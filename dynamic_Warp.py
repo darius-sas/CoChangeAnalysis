@@ -31,14 +31,15 @@ def perform_dtw():
         # drop rows we already had
         for y in grouped_comp.drop(grouped_comp.index[:x.Index + 1]).itertuples():
             norm_distance = generate_dtw(x.changeMoments, y.changeMoments)
-            if norm_distance < 86400:
-                return_list.append((x.name, y.name))
             distance_list.append(Distance(x.name, y.name, norm_distance))
-
-    # get highest threshold
     distance_list = sorted(distance_list, key=attrgetter('dist'))
     distance_df = pd.DataFrame(distance_list)
-    distance_df.to_pickle(output_directory + "/dtw_distances.pkl")
+    threshold = distance_df.quantile(0.01)[0]
+    for dist in distance_list:
+        if dist.dist < threshold and (dist.x is "package-info.java" or dist.y is "package-info.java"):
+            return_list.append((dist.x, dist.y))
+
+    distance_df.to_csv(output_directory + "/dtw_distances.csv", index_label=False)
     made_threshold = len(return_list)/len(distance_list)
     print(made_threshold)
     print("----threshold results DTW----")
@@ -73,4 +74,4 @@ def generate_dtw_analysis_files():
     warp_with_dates = add_info_to_cochanges(warps, changed_files)
 
     # 3) Store results in files
-    warp_with_dates.to_csv(output_directory + "/dtw.csv")
+    warp_with_dates.to_csv(output_directory + "/dtw.csv", index_label=False)

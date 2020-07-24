@@ -13,7 +13,7 @@ git_repo = "SonarSource/" + project_name
 git_url = "https://github.com/"+git_repo+".git"
 branch = 'master'
 
-api_key_github = 'github_token_here' # 
+api_key_github = 'edc6030439c5f9888bd791e5670cddfa67c240a3' #
 git_project_owner = "unknown_owner"  # Only used for the command line initialization
 results_file = "analysis_results.csv"
 

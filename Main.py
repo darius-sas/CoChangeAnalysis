@@ -38,13 +38,20 @@ def generate_analysis():
     generate_dtw_analysis_files()
     generate_mba_analysis_files()
 
-# hyper_param_analysis()
-# threshold_distribution()
-# generate_analysis()
 
-run_exploration()
 
-# result_analysis()
+
+def analyse_project(project):
+    config.project_name = project
+    #hyper_param_analysis()
+    #threshold_distribution()
+    generate_analysis()
+    run_exploration()
+    result_analysis()
+
+
+if __name__ == "__main__":
+    analyse_project("sonarlint-intellij")
 
 #start = time.time()
 #run_exploration()
